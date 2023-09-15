@@ -1,0 +1,4 @@
+type Query {
+    # This example of doc
+    hello: String
+}

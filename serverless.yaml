@@ -1,0 +1,48 @@
+service: appsync-demo
+frameworkVersion: "3"
+configValidationMode: "warn"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, self:custom.defaultStage}
+  region: us-west-1
+  versionFunctions: true
+  logRetentionInDays: 90
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+
+plugins:
+  - serverless-appsync-plugin
+custom:
+  defaultStage: dev
+
+appSync:
+  name: appsync-demo-${self:provider.stage}
+  schema: 'schema.graphql'
+  authentication:
+    type: 'API_KEY'
+  apiKeys:
+    - name: apiKey
+      description: dev API key
+      expiresAfter: 1M
+  dataSources:
+    appsyncLambda:
+      type: AWS_LAMBDA
+      name: appsyncLambda
+      config:
+        functionName: appsyncLambda
+  resolvers:
+    query:
+      type: Query
+      field: hello
+      dataSource: appsyncLambda
+      kind: UNIT
+
+functions:
+  appsyncLambda:
+    name: appsyncLambda-${self:provider.stage}
+    description: Lambda resolver which accept events from appsync
+    timeout: 15
+    handler: src/index.handler
+

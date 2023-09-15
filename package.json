@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "serverless": "^3.34.0",
+    "serverless-appsync-plugin": "^2.3.1"
+  }
+}
