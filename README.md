@@ -1,5 +1,7 @@
 # Appsync lambda 
 
+See more on this https://r11baka.hashnode.dev/how-to-connect-appsync-and-lambda
+
 ## How to install ?
 ```shell
 npm install
